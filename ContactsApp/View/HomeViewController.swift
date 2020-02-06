@@ -23,15 +23,30 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cellNib = UINib(nibName: "ContactTableViewCell", bundle: nil)
         homeTableView.register(cellNib, forCellReuseIdentifier: "contactCell")
         
+        homeTableView.delegate = self
+        homeTableView.dataSource = self
     }
     
+    @IBAction func addBarButtonTapped(_ sender: UIBarButtonItem) {
+        let nc = UIStoryboard(name: "EditContactScreen", bundle: nil).instantiateViewController(withIdentifier: "editContactScreenNavController") as! UINavigationController
+//        let vc = nc.viewControllers.first as! EditContactViewController
+//        vc.garageView = self
+        
+        self.present(nc, animated: true, completion: nil)
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactTableViewCell
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("move")
     }
 
 }
