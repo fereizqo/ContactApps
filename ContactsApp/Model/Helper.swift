@@ -30,11 +30,10 @@ class Helper {
 
             if response.response?.statusCode == 200 {
                 // If response success, do something here
-                let s = JSON(value).arrayValue
-                // let listData = JSON(value)["task"].arrayValue
+                let listData = JSON(value).arrayValue
                
                 // Get required data
-                for data in s {
+                for data in listData {
                     let id = JSON(data["id"]).intValue
                     let first_name = JSON(data["first_name"]).stringValue
                     let last_name = JSON(data["last_name"]).stringValue
@@ -51,5 +50,19 @@ class Helper {
                 print("No data contacts")
             }
         })
+    }
+}
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
     }
 }
