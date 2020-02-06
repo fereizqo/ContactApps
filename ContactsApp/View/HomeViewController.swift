@@ -46,7 +46,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("move")
+        let nc = UIStoryboard(name: "DetailContactScreen", bundle: nil).instantiateViewController(withIdentifier: "detailContactScreenNavController") as! UINavigationController
+        
+        self.present(nc, animated: true, completion: nil)
     }
 
 }
