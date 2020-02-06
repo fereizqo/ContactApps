@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController {
 
     @IBOutlet weak var homeTableView: UITableView!
     @IBOutlet weak var addBarButton: UIBarButtonItem!
@@ -34,8 +34,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.present(nc, animated: true, completion: nil)
     }
-    
-    
+}
+
+extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
@@ -50,5 +51,5 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.present(nc, animated: true, completion: nil)
     }
-
+    
 }

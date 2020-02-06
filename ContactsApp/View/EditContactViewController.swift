@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditContactViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class EditContactViewController: UIViewController {
 
     @IBOutlet weak var cancelBarButton: UIBarButtonItem!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
@@ -29,6 +29,11 @@ class EditContactViewController: UIViewController, UITableViewDataSource, UITabl
         formContactTableView.dataSource = self
     }
     
+    
+
+}
+
+extension EditContactViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return label.count
     }
@@ -38,5 +43,4 @@ class EditContactViewController: UIViewController, UITableViewDataSource, UITabl
         cell.headerLabel.text = label[indexPath.row]
         return cell
     }
-
 }

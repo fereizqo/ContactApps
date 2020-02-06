@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailContactViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DetailContactViewController: UIViewController {
 
     @IBOutlet weak var editBarButton: UIBarButtonItem!
     @IBOutlet weak var photoContactImage: UIImageView!
@@ -41,6 +41,10 @@ class DetailContactViewController: UIViewController, UITableViewDataSource, UITa
     @IBAction func favoriteButtonTapped(_ sender: UIButton) {
     }
     
+}
+
+
+extension DetailContactViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return label.count
     }
@@ -50,5 +54,4 @@ class DetailContactViewController: UIViewController, UITableViewDataSource, UITa
         cell.headerLabel.text = label[indexPath.row]
         return cell
     }
-    
 }
