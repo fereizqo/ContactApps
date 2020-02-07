@@ -62,6 +62,24 @@ class DetailContactViewController: UIViewController, MFMessageComposeViewControl
     }
     
     @IBAction func favoriteButtonTapped(_ sender: UIButton) {
+        let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(self.detailContact?.id ?? 0).json"
+        print(url)
+        
+        let parameter: Parameters = [
+            "favorite": "\(!(self.detailContact?.favorite ?? false))"
+        ]
+        
+        let header = ["Content-Type": "application/json"]
+        
+        Alamofire.request(url, method: .put, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let data):
+                    print("Ok: \(data)")
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+        }
     }
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
