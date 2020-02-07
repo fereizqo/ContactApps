@@ -39,8 +39,7 @@ class DetailContactViewController: UIViewController, MFMessageComposeViewControl
         if (MFMessageComposeViewController.canSendText()) {
             let message = MFMessageComposeViewController()
             message.body = "Message body"
-            message.recipients = ["4444444"]
-//            message.recipients = ["\(detailContact?.phone_number)"]
+            message.recipients = ["\(detailContact?.phone_number ?? "0")"]
             message.messageComposeDelegate = self
             self.present(message, animated: true, completion: nil)
             
@@ -48,8 +47,7 @@ class DetailContactViewController: UIViewController, MFMessageComposeViewControl
     }
     
     @IBAction func callButtonTapped(_ sender: UIButton) {
-        guard let number = URL(string: "tel://" + "444444") else { return }
-//        guard let number = URL(string: "tel://" + "\(detailContact?.phone_number)") else { return }
+        guard let number = URL(string: "tel://" + "\(detailContact?.phone_number ?? "0")") else { return }
         UIApplication.shared.open(number)
     }
     
@@ -57,8 +55,7 @@ class DetailContactViewController: UIViewController, MFMessageComposeViewControl
         if (MFMailComposeViewController.canSendMail()) {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["a@gmail.com"])
-//            mail.setToRecipients(["\(detailContact?.email)"])
+            mail.setToRecipients(["\(detailContact?.email ?? "0")"])
             mail.setMessageBody("<p>Sent from contact app</p>", isHTML: true)
             self.present(mail, animated: true, completion: nil)
         }
