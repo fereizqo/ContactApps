@@ -11,7 +11,7 @@ import MessageUI
 import Alamofire
 import SwiftyJSON
 
-class DetailContactViewController: UIViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
+class DetailContactViewController: UIViewController {
 
     @IBOutlet weak var editBarButton: UIBarButtonItem!
     @IBOutlet weak var photoContactImage: UIImageView!
@@ -39,25 +39,36 @@ class DetailContactViewController: UIViewController, MFMessageComposeViewControl
     
     @IBAction func messageButtonTapped(_ sender: UIButton) {
         if (MFMessageComposeViewController.canSendText()) {
+            // Check detail contact has a value
+            guard let detailContact = self.detailContact else { return }
+            
+            // Open message
             let message = MFMessageComposeViewController()
             message.body = "Message body"
-            message.recipients = ["\(detailContact?.phone_number ?? "0")"]
+            message.recipients = ["\(detailContact.phone_number)"]
             message.messageComposeDelegate = self
             self.present(message, animated: true, completion: nil)
-            
         }
     }
     
     @IBAction func callButtonTapped(_ sender: UIButton) {
-        guard let number = URL(string: "tel://" + "\(detailContact?.phone_number ?? "0")") else { return }
+        // Check detail contact has a value
+        guard let detailContact = self.detailContact else { return }
+        
+        // Open Call
+        guard let number = URL(string: "tel://" + "\(detailContact.phone_number)") else { return }
         UIApplication.shared.open(number)
     }
     
     @IBAction func emailButtonTapped(_ sender: UIButton) {
         if (MFMailComposeViewController.canSendMail()) {
+            // Check detail contact has a value
+            guard let detailContact = self.detailContact else { return }
+            
+            // Open email
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["\(detailContact?.email ?? "0")"])
+            mail.setToRecipients(["\(detailContact.email)"])
             mail.setMessageBody("<p>Sent from contact app</p>", isHTML: true)
             self.present(mail, animated: true, completion: nil)
         }
@@ -83,10 +94,6 @@ class DetailContactViewController: UIViewController, MFMessageComposeViewControl
         }
     }
     
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
 }
 
 
@@ -100,6 +107,16 @@ extension DetailContactViewController: UITableViewDataSource, UITableViewDelegat
         cell.headerLabel.text = label[indexPath.row]
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+extension DetailContactViewController: MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
