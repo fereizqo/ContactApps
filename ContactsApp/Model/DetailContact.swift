@@ -15,7 +15,7 @@ class DetailContact {
     let email: String
     let phone_number: String
     let profile_pic: String
-    let favorite: Bool
+    var favorite: Bool
     
     init(id: Int, first_name: String, last_name: String, email: String, phone_number: String, profile_pic: String, favorite: Bool) {
         self.id = id

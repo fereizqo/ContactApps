@@ -58,7 +58,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let nc = UIStoryboard(name: "DetailContactScreen", bundle: nil).instantiateViewController(withIdentifier: "detailContactScreenNavController") as! UINavigationController
         let vc = nc.viewControllers.first as! DetailContactViewController
         vc.url = "\(contacts[indexPath.row].url)"
-        vc.getDetailContactData()
         nc.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(vc, animated: true)
     }

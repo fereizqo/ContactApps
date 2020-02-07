@@ -17,22 +17,23 @@ class DetailContactViewController: UIViewController {
     @IBOutlet weak var photoContactImage: UIImageView!
     @IBOutlet weak var nameContactLabel: UILabel!
     @IBOutlet weak var detailContactTableView: UITableView!
+    @IBOutlet weak var favoriteButton: UIButton!
     
     var url: String?
     var detailContact: DetailContact?
-    let label = ["mobile", "email"]
+    var labelDetail = ["-", "-"]
+    var labelHeader = ["mobile", "email"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Load Detail Contact Data
-//        getDetailContactData()
+        getDetailContactData()
         
         // Register xib cell
         let cellNib = UINib(nibName: "EditContactTableViewCell", bundle: nil)
         detailContactTableView.register(cellNib, forCellReuseIdentifier: "editContactCell")
         
         self.detailContactTableView.tableFooterView = UIView()
-        
         detailContactTableView.delegate = self
         detailContactTableView.dataSource = self
     }
@@ -74,19 +75,26 @@ class DetailContactViewController: UIViewController {
         }
     }
     
-    @IBAction func favoriteButtonTapped(_ sender: UIButton) {
+    @IBAction func favoriteButtonTapped(_ sender: UIButton) {        
+        guard let detailContact = self.detailContact else { return }
+        
+        if detailContact.favorite {
+            favoriteButton.setImage(UIImage(named: "favourite_button"), for: .normal)
+        } else {
+            favoriteButton.setImage(UIImage(named: "favourite_button_selected"), for: .normal)
+        }
+        
         let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(self.detailContact?.id ?? 0).json"
-        
-        let parameter: Parameters = [
-            "favorite": "\(!(self.detailContact?.favorite ?? false))"
-        ]
-        
         let header = ["Content-Type": "application/json"]
+        let parameter: Parameters = [
+            "favorite": "\(!(detailContact.favorite))"
+        ]
         
         Alamofire.request(url, method: .put, parameters: parameter, encoding: JSONEncoding.default, headers: header)
             .responseJSON { response in
                 switch response.result {
                 case .success(let data):
+                    self.detailContact?.favorite = !(detailContact.favorite)
                     print("Ok: \(data)")
                 case .failure(let error):
                     print("Error: \(error)")
@@ -99,13 +107,15 @@ class DetailContactViewController: UIViewController {
 
 extension DetailContactViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return label.count
+        return labelHeader.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editContactCell", for: indexPath) as! EditContactTableViewCell
-        cell.headerLabel.text = label[indexPath.row]
         cell.selectionStyle = .none
+        cell.inputTextField.isEnabled = false
+        cell.headerLabel.text = labelHeader[indexPath.row]
+        cell.inputTextField.text = labelDetail[indexPath.row]
         return cell
     }
 }
@@ -124,6 +134,13 @@ extension DetailContactViewController {
     func getDetailContactData() {
         guard let contactURL = url else { return }
         
+        // Reset data
+        self.detailContact = nil
+        self.url = nil
+        self.labelDetail.removeAll()
+        self.labelHeader.removeAll()
+        
+        // Request API
         Alamofire.request(contactURL, method: .get)
            .responseJSON(completionHandler: {
                (response) in
@@ -151,9 +168,18 @@ extension DetailContactViewController {
                 let favorite = json["favorite"].boolValue
                 
                 self.detailContact = DetailContact(id: id, first_name: first_name, last_name: last_name, email: email, phone_number: phone_number, profile_pic: profile_pic, favorite: favorite)
+                self.labelDetail.append(contentsOf: [phone_number,email])
+                self.labelHeader.append(contentsOf: ["mobile","email"])
                 
                 // Reload Interface
                 self.nameContactLabel.text = "\(first_name) \(last_name)"
+                
+                if favorite {
+                    self.favoriteButton.setImage(UIImage(named: "favourite_button_selected"), for: .normal)
+                } else {
+                    self.favoriteButton.setImage(UIImage(named: "favourite_button"), for: .normal)
+                }
+                
                 self.detailContactTableView.reloadData()
                 
             } else {

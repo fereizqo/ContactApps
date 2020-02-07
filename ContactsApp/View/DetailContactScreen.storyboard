@@ -152,6 +152,7 @@
                     <connections>
                         <outlet property="detailContactTableView" destination="LNJ-dA-p7E" id="9d3-eJ-XWI"/>
                         <outlet property="editBarButton" destination="t66-QJ-jEA" id="ve8-jv-Zxb"/>
+                        <outlet property="favoriteButton" destination="UQc-da-ieZ" id="t92-9G-EvF"/>
                         <outlet property="nameContactLabel" destination="5y6-h4-pOP" id="sjT-3S-Sse"/>
                         <outlet property="photoContactImage" destination="fqr-HM-H1X" id="y90-4r-JdK"/>
                     </connections>
