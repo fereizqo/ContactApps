@@ -36,9 +36,7 @@ class HomeViewController: UIViewController {
     
     @IBAction func addBarButtonTapped(_ sender: UIBarButtonItem) {
         let nc = UIStoryboard(name: "EditContactScreen", bundle: nil).instantiateViewController(withIdentifier: "editContactScreenNavController") as! UINavigationController
-//        let vc = nc.viewControllers.first as! EditContactViewController
-//        vc.garageView = self
-        
+//        nc.modalPresentationStyle = .currentContext
         self.present(nc, animated: true, completion: nil)
     }
 }
@@ -58,7 +56,11 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let nc = UIStoryboard(name: "DetailContactScreen", bundle: nil).instantiateViewController(withIdentifier: "detailContactScreenNavController") as! UINavigationController
+        let vc = nc.viewControllers.first as! DetailContactViewController
+        vc.url = "\(contacts[indexPath.row].url)"
+        vc.getDetailContactData()
         
+//        nc.modalPresentationStyle = .fullScreen
         self.present(nc, animated: true, completion: nil)
     }
 }
@@ -84,9 +86,8 @@ extension HomeViewController {
 
             if response.response?.statusCode == 200 {
                 // If response success, do something here
-//                let listData = JSON(value).arrayValue.sorted(by: {$0["first_name"] <  $1["first_name"]})
-                let listData = JSON(value).arrayValue
-                // let listData = JSON(value)["task"].arrayValue
+                let listData = JSON(value).arrayValue.sorted(by: {$0["first_name"] < $1["first_name"]})
+                //let listData = JSON(value).arrayValue
                
                 // Get required data
                 for data in listData {

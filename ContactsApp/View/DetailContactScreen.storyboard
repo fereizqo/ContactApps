@@ -10,7 +10,7 @@
         <!--Detail Contact View Controller-->
         <scene sceneID="F0C-48-fWi">
             <objects>
-                <viewController id="aDQ-GW-CXu" customClass="DetailContactViewController" customModule="ContactsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailContactScreenViewController" id="aDQ-GW-CXu" customClass="DetailContactViewController" customModule="ContactsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="G9K-r1-zKK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
