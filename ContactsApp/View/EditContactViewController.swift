@@ -31,6 +31,13 @@ class EditContactViewController: UIViewController {
         formContactTableView.dataSource = self
     }
     
+    @IBAction func cancelBarButtonTapped(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func doneBarButtonTapped(_ sender: UIBarButtonItem) {
+        
+    }
     
 }
 

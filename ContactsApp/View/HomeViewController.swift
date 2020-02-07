@@ -36,7 +36,7 @@ class HomeViewController: UIViewController {
     
     @IBAction func addBarButtonTapped(_ sender: UIBarButtonItem) {
         let nc = UIStoryboard(name: "EditContactScreen", bundle: nil).instantiateViewController(withIdentifier: "editContactScreenNavController") as! UINavigationController
-//        nc.modalPresentationStyle = .currentContext
+        nc.modalPresentationStyle = .fullScreen
         self.present(nc, animated: true, completion: nil)
     }
 }
@@ -59,9 +59,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let vc = nc.viewControllers.first as! DetailContactViewController
         vc.url = "\(contacts[indexPath.row].url)"
         vc.getDetailContactData()
-        
-//        nc.modalPresentationStyle = .fullScreen
-        self.present(nc, animated: true, completion: nil)
+        nc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

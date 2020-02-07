@@ -48,8 +48,16 @@
                         <viewLayoutGuide key="safeArea" id="hH5-cI-KoL"/>
                     </view>
                     <navigationItem key="navigationItem" id="m70-ww-hkD">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="J6l-7D-Soh"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="PXt-g4-Wre"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="J6l-7D-Soh">
+                            <connections>
+                                <action selector="cancelBarButtonTapped:" destination="vFR-pb-yua" id="PUm-df-ztI"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="PXt-g4-Wre">
+                            <connections>
+                                <action selector="doneBarButtonTapped:" destination="vFR-pb-yua" id="a1b-X8-wRQ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="cancelBarButton" destination="J6l-7D-Soh" id="63r-Je-hKh"/>
