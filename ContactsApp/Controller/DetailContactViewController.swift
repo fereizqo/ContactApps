@@ -31,6 +31,8 @@ class DetailContactViewController: UIViewController, MFMessageComposeViewControl
         let cellNib = UINib(nibName: "EditContactTableViewCell", bundle: nil)
         detailContactTableView.register(cellNib, forCellReuseIdentifier: "editContactCell")
         
+        self.detailContactTableView.tableFooterView = UIView()
+        
         detailContactTableView.delegate = self
         detailContactTableView.dataSource = self
     }
@@ -63,7 +65,6 @@ class DetailContactViewController: UIViewController, MFMessageComposeViewControl
     
     @IBAction func favoriteButtonTapped(_ sender: UIButton) {
         let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(self.detailContact?.id ?? 0).json"
-        print(url)
         
         let parameter: Parameters = [
             "favorite": "\(!(self.detailContact?.favorite ?? false))"
@@ -97,6 +98,7 @@ extension DetailContactViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editContactCell", for: indexPath) as! EditContactTableViewCell
         cell.headerLabel.text = label[indexPath.row]
+        cell.selectionStyle = .none
         return cell
     }
 }

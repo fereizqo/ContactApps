@@ -25,6 +25,8 @@ class EditContactViewController: UIViewController {
         let cellNib = UINib(nibName: "EditContactTableViewCell", bundle: nil)
         formContactTableView.register(cellNib, forCellReuseIdentifier: "editContactCell")
         
+        self.formContactTableView.tableFooterView = UIView()
+        
         formContactTableView.delegate = self
         formContactTableView.dataSource = self
     }
@@ -40,6 +42,7 @@ extension EditContactViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editContactCell", for: indexPath) as! EditContactTableViewCell
         cell.headerLabel.text = label[indexPath.row]
+        cell.selectionStyle = .none
         return cell
     }
 }

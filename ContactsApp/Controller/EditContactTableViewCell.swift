@@ -13,7 +13,6 @@ class EditContactTableViewCell: UITableViewCell {
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var inputTextField: UITextField!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
