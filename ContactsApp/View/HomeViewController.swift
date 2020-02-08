@@ -72,7 +72,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension HomeViewController {
     func getContactData() {
-        
         // Reset contact data
         self.contacts.removeAll()
         
@@ -92,7 +91,6 @@ extension HomeViewController {
             if response.response?.statusCode == 200 {
                 // If response success, do something here
                 let listData = JSON(value).arrayValue.sorted(by: {$0["first_name"] < $1["first_name"]})
-                //let listData = JSON(value).arrayValue
                
                 // Get required data
                 for data in listData {

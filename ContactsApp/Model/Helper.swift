@@ -14,6 +14,13 @@ class Helper {
     
     var contacts: [Contact] = []
     
+    public static func makeAlert(title: String, messages: String) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: messages, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        return alert
+    }
+    
     func getContactData() {
         Alamofire.request("http://gojek-contacts-app.herokuapp.com/contacts.json", method: .get)
            .responseJSON(completionHandler: {

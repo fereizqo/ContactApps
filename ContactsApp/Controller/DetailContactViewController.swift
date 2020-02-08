@@ -26,9 +26,10 @@ class DetailContactViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Load Detail Contact Data
+        // Load detail contact data, Put request
         getDetailContactData()
         
+        // Set appearance
         nameContactLabel.sizeToFit()
         
         // Register xib cell
@@ -49,7 +50,6 @@ class DetailContactViewController: UIViewController {
         nc.modalTransitionStyle = .crossDissolve
         let vc = nc.viewControllers.first as! EditContactViewController
         vc.detailContact = detailContact
-        vc.isEditing = true
         self.present(nc, animated: true, completion: nil)
         
     }
@@ -102,23 +102,9 @@ class DetailContactViewController: UIViewController {
             favoriteButton.setImage(UIImage(named: "favourite_button_selected"), for: .normal)
         }
         
-        // Put request
-        let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(detailContact.id).json"
-        let header = ["Content-Type": "application/json"]
-        let parameter: Parameters = [
-            "favorite": "\(!(detailContact.favorite))"
-        ]
+        // Update favorite, Put request
+        updateFavorite()
         
-        Alamofire.request(url, method: .put, parameters: parameter, encoding: JSONEncoding.default, headers: header)
-            .responseJSON { response in
-                switch response.result {
-                case .success(let data):
-                    self.detailContact?.favorite = !(detailContact.favorite)
-                    print("Ok: \(data)")
-                case .failure(let error):
-                    print("Error: \(error)")
-                }
-        }
     }
     
 }
@@ -205,5 +191,49 @@ extension DetailContactViewController {
                 print("No data contacts")
             }
         })
+    }
+    
+    func updateFavorite() {
+        // Check detail contact has a value
+        guard let detailContact = self.detailContact else { return }
+        
+        // Put request
+        let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(detailContact.id).json"
+        let header = ["Content-Type": "application/json"]
+        let parameter: Parameters = [
+            "favorite": "\(!(detailContact.favorite))"
+        ]
+        
+        Alamofire.request(url, method: .put, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+            .responseJSON { response in
+                // Check response is success or not
+                guard response.result.isSuccess,
+                // If response is success, get the value from response
+                let value = response.result.value else {
+                    // If response is failed, show error message
+                    print("Problem when connecting server")
+                    return
+                }
+                // Check status response
+                switch response.response?.statusCode {
+                case 422:
+                    let data = JSON(value)["errors"].arrayValue
+                    var message = ""
+                    for error in data {
+                        message += "\(error.stringValue) \n"
+                    }
+                    let alert = Helper.makeAlert(title: "Alert", messages: "\(message)")
+                    self.present(alert, animated: true, completion: nil)
+                    break
+                case 200:
+                    let alert = Helper.makeAlert(title: "Favorite", messages: "Favorite successfully updated")
+                    self.present(alert, animated: true, completion: nil)
+                    self.detailContact?.favorite = !(detailContact.favorite)
+                case .none:
+                    break
+                case .some(_):
+                    break
+                }
+        }
     }
 }

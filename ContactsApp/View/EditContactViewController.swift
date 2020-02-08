@@ -53,19 +53,7 @@ class EditContactViewController: UIViewController {
     }
     
     @IBAction func doneBarButtonTapped(_ sender: UIBarButtonItem) {
-        // Give alert when First or Last name is empty
-        if form[0].isEmpty || form[1].isEmpty {
-            let alert = UIAlertController(title: "Alert", message: "First and last name fields are required to be filled in", preferredStyle: .alert)
-            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(action)
-            self.present(alert, animated: true, completion: nil)
-            print("Failed to post, Form: \(form)")
-        } else {
-            // Post Request
-            print("Succes to post, form: \(form)")
             editFormDone()
-            self.dismiss(animated: true, completion: nil)
-        }
     }
     
 }
@@ -115,7 +103,6 @@ extension EditContactViewController: UITableViewDataSource, UITableViewDelegate,
 }
 
 extension EditContactViewController {
-    
     func editFormDone() {
         let header = ["Content-Type": "application/json"]
         
@@ -132,11 +119,33 @@ extension EditContactViewController {
             ]
             Alamofire.request(url, method: .put, parameters: parameter, encoding: JSONEncoding.default, headers: header)
                 .responseJSON { response in
-                    switch response.result {
-                    case .success(let data):
-                        print("Ok: \(data)")
-                    case .failure(let error):
-                        print("Error: \(error)")
+                    // Check response is success or not
+                    guard response.result.isSuccess,
+                    // If response is success, get the value from response
+                    let value = response.result.value else {
+                        // If response is failed, show error message
+                        print("Problem when connecting server")
+                        return
+                    }
+                    // Check status response
+                    switch response.response?.statusCode {
+                    case 422:
+                        let data = JSON(value)["errors"].arrayValue
+                        var message = ""
+                        for error in data {
+                            message += "\(error.stringValue) \n"
+                        }
+                        let alert = Helper.makeAlert(title: "Alert", messages: "\(message)")
+                        self.present(alert, animated: true, completion: nil)
+                        break
+                    case 200:
+                        let alert = Helper.makeAlert(title: "Succes", messages: "Contact successfully updated")
+                        self.present(alert, animated: true, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
+                    case .none:
+                        break
+                    case .some(_):
+                        break
                     }
             }
         } else {
@@ -151,11 +160,33 @@ extension EditContactViewController {
             ]
             Alamofire.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
                 .responseJSON { response in
-                    switch response.result {
-                    case .success(let data):
-                        print("Ok: \(data)")
-                    case .failure(let error):
-                        print("Error: \(error)")
+                    // Check response is success or not
+                    guard response.result.isSuccess,
+                    // If response is success, get the value from response
+                    let value = response.result.value else {
+                        // If response is failed, show error message
+                        print("Problem when connecting server")
+                        return
+                    }
+                    // Check status response
+                    switch response.response?.statusCode {
+                    case 422:
+                        let data = JSON(value)["errors"].arrayValue
+                        var message = ""
+                        for error in data {
+                            message += "\(error.stringValue) \n"
+                        }
+                        let alert = Helper.makeAlert(title: "Alert", messages: "\(message)")
+                        self.present(alert, animated: true, completion: nil)
+                        break
+                    case 201:
+                        let alert = Helper.makeAlert(title: "Succes", messages: "Contact successfully created")
+                        self.present(alert, animated: true, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
+                    case .none:
+                        break
+                    case .some(_):
+                        break
                     }
             }
         }
