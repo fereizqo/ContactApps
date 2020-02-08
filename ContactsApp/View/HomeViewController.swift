@@ -84,7 +84,8 @@ extension HomeViewController {
             // If response is success, get the value from response
             let value = response.result.value else {
                 // If response is failed, show error message
-                print("Problem when connecting server")
+                let alert = Helper.makeAlert(title: "Alert", messages: "Problem when connecting server")
+                self.present(alert, animated: true, completion: nil)
                 return
             }
 
@@ -110,7 +111,8 @@ extension HomeViewController {
                 
             } else {
                 // If response error, do something here
-                print("No data contacts")
+                let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
+                self.present(alert, animated: true, completion: nil)
             }
         })
     }

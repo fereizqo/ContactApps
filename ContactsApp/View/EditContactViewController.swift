@@ -142,9 +142,9 @@ extension EditContactViewController {
                         let alert = Helper.makeAlert(title: "Succes", messages: "Contact successfully updated")
                         self.present(alert, animated: true, completion: nil)
                         self.dismiss(animated: true, completion: nil)
-                    case .none:
-                        break
-                    case .some(_):
+                    default:
+                        let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
+                        self.present(alert, animated: true, completion: nil)
                         break
                     }
             }
@@ -183,9 +183,9 @@ extension EditContactViewController {
                         let alert = Helper.makeAlert(title: "Succes", messages: "Contact successfully created")
                         self.present(alert, animated: true, completion: nil)
                         self.dismiss(animated: true, completion: nil)
-                    case .none:
-                        break
-                    case .some(_):
+                    default:
+                        let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
+                        self.present(alert, animated: true, completion: nil)
                         break
                     }
             }
