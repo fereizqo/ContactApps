@@ -23,11 +23,11 @@ class EditContactViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         // Register xib cell
         let cellNib = UINib(nibName: "EditContactTableViewCell", bundle: nil)
         formContactTableView.register(cellNib, forCellReuseIdentifier: "editContactCell")
         
+        // Set appearance
         self.formContactTableView.tableFooterView = UIView()
         
         formContactTableView.delegate = self
@@ -39,16 +39,26 @@ class EditContactViewController: UIViewController {
     }
     
     @IBAction func doneBarButtonTapped(_ sender: UIBarButtonItem) {
-        print("Form : \(form)")
-        postContact()
-        
-        self.dismiss(animated: true, completion: nil)
+        // Give alert when First and Last name are empty
+        if form[0].isEmpty || form[1].isEmpty {
+            let alert = UIAlertController(title: "Alert", message: "First and last name fields are required to be filled in", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: nil)
+            print("Failed to post, Form: \(form)")
+        } else {
+            // Post Request
+            print("Succes to post, form: \(form)")
+            postContact()
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
 }
 
 extension EditContactViewController: UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
+        // Save input texfield text to form instance
         form[textField.tag] = textField.text ?? ""
     }
     
@@ -79,10 +89,12 @@ extension EditContactViewController: UITableViewDataSource, UITableViewDelegate,
         
         cell.headerLabel.text = label[indexPath.row]
         
+        // Set each tag
         let textField = cell.viewWithTag(1) as! UITextField
-        textField.delegate = self
         textField.tag = indexPath.row
         textField.text = form[indexPath.row]
+        
+        textField.delegate = self
         
         return cell
     }
