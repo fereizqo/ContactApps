@@ -31,10 +31,13 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
+        // Get contact
         getContactData()
     }
     
     @IBAction func addBarButtonTapped(_ sender: UIBarButtonItem) {
+        // Go to edit contact screen
         let nc = UIStoryboard(name: "EditContactScreen", bundle: nil).instantiateViewController(withIdentifier: "editContactScreenNavController") as! UINavigationController
         nc.modalPresentationStyle = .fullScreen
         self.present(nc, animated: true, completion: nil)
@@ -55,6 +58,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Animate after select
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // Go to detail contact screen
         let nc = UIStoryboard(name: "DetailContactScreen", bundle: nil).instantiateViewController(withIdentifier: "detailContactScreenNavController") as! UINavigationController
         let vc = nc.viewControllers.first as! DetailContactViewController
         vc.url = "\(contacts[indexPath.row].url)"
@@ -66,8 +73,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 extension HomeViewController {
     func getContactData() {
         
+        // Reset contact data
         self.contacts.removeAll()
-        self.homeTableView.reloadData()
         
         Alamofire.request("https://gojek-contacts-app.herokuapp.com/contacts.json", method: .get)
            .responseJSON(completionHandler: {

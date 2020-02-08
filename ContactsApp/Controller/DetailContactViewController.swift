@@ -29,6 +29,8 @@ class DetailContactViewController: UIViewController {
         // Load Detail Contact Data
         getDetailContactData()
         
+        nameContactLabel.sizeToFit()
+        
         // Register xib cell
         let cellNib = UINib(nibName: "EditContactTableViewCell", bundle: nil)
         detailContactTableView.register(cellNib, forCellReuseIdentifier: "editContactCell")
