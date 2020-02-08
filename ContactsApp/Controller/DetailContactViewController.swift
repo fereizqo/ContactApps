@@ -40,6 +40,20 @@ class DetailContactViewController: UIViewController {
         detailContactTableView.dataSource = self
     }
     
+    @IBAction func editBarButtonTapped(_ sender: UIBarButtonItem) {
+        guard let detailContact = self.detailContact else { return }
+        print("move to edit")
+        
+        let nc = UIStoryboard(name: "EditContactScreen", bundle: nil).instantiateViewController(withIdentifier: "editContactScreenNavController") as! UINavigationController
+        nc.modalPresentationStyle = .fullScreen
+        nc.modalTransitionStyle = .crossDissolve
+        let vc = nc.viewControllers.first as! EditContactViewController
+        vc.detailContact = detailContact
+        vc.isEditing = true
+        self.present(nc, animated: true, completion: nil)
+        
+    }
+    
     @IBAction func messageButtonTapped(_ sender: UIButton) {
         if (MFMessageComposeViewController.canSendText()) {
             // Check detail contact has a value
@@ -141,7 +155,6 @@ extension DetailContactViewController {
         
         // Reset data
         self.detailContact = nil
-        self.url = nil
         self.labelDetail.removeAll()
         self.labelHeader.removeAll()
         

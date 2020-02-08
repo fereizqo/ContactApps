@@ -146,7 +146,11 @@
                         <viewLayoutGuide key="safeArea" id="ZdG-J5-eaE"/>
                     </view>
                     <navigationItem key="navigationItem" id="LxE-0J-YZX">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="t66-QJ-jEA"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="t66-QJ-jEA">
+                            <connections>
+                                <action selector="editBarButtonTapped:" destination="aDQ-GW-CXu" id="mQm-SA-60K"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="detailContactTableView" destination="LNJ-dA-p7E" id="9d3-eJ-XWI"/>
