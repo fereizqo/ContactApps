@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Input here" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="MEn-Xt-7kb">
+                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Input here" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="MEn-Xt-7kb">
                         <rect key="frame" x="135" y="20" width="225" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <textInputTraits key="textInputTraits"/>

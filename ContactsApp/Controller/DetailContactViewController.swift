@@ -75,16 +75,19 @@ class DetailContactViewController: UIViewController {
         }
     }
     
-    @IBAction func favoriteButtonTapped(_ sender: UIButton) {        
+    @IBAction func favoriteButtonTapped(_ sender: UIButton) {
+        // Check detail contact has a value
         guard let detailContact = self.detailContact else { return }
         
+        // Change fav pict when tapped
         if detailContact.favorite {
             favoriteButton.setImage(UIImage(named: "favourite_button"), for: .normal)
         } else {
             favoriteButton.setImage(UIImage(named: "favourite_button_selected"), for: .normal)
         }
         
-        let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(self.detailContact?.id ?? 0).json"
+        // Put request
+        let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(detailContact.id).json"
         let header = ["Content-Type": "application/json"]
         let parameter: Parameters = [
             "favorite": "\(!(detailContact.favorite))"
