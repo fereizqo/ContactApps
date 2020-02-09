@@ -16,7 +16,9 @@ class Helper {
     
     public static func makeAlert(title: String, messages: String) -> UIAlertController {
         let alert = UIAlertController(title: title, message: messages, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let action = UIAlertAction(title: "OK", style: .default, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        })
         alert.addAction(action)
         return alert
     }

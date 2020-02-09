@@ -27,10 +27,6 @@ class DetailContactViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Load detail contact data, Put request
-        Spinner.shared.showSpinner(onView: view)
-        getDetailContactData()
-        
         // Register xib cell
         let cellNib = UINib(nibName: "EditContactTableViewCell", bundle: nil)
         detailContactTableView.register(cellNib, forCellReuseIdentifier: "editContactCell")
@@ -38,6 +34,13 @@ class DetailContactViewController: UIViewController {
         self.detailContactTableView.tableFooterView = UIView()
         detailContactTableView.delegate = self
         detailContactTableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Load detail contact data, Put request
+        Spinner.shared.showSpinner(onView: view)
+        getDetailContactData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -81,8 +84,8 @@ class DetailContactViewController: UIViewController {
     }
     
     @IBAction func editBarButtonTapped(_ sender: UIBarButtonItem) {
+        // Check detail contact has a value
         guard let detailContact = self.detailContact else { return }
-        print("move to edit")
         
         let nc = UIStoryboard(name: "EditContactScreen", bundle: nil).instantiateViewController(withIdentifier: "editContactScreenNavController") as! UINavigationController
         nc.modalPresentationStyle = .fullScreen
@@ -95,7 +98,6 @@ class DetailContactViewController: UIViewController {
     
     @IBAction func messageButtonTapped(_ sender: UIButton) {
         if (MFMessageComposeViewController.canSendText()) {
-            // Check detail contact has a value
             guard let detailContact = self.detailContact else { return }
             
             // Open message
@@ -108,7 +110,6 @@ class DetailContactViewController: UIViewController {
     }
     
     @IBAction func callButtonTapped(_ sender: UIButton) {
-        // Check detail contact has a value
         guard let detailContact = self.detailContact else { return }
         
         // Open Call
@@ -118,7 +119,6 @@ class DetailContactViewController: UIViewController {
     
     @IBAction func emailButtonTapped(_ sender: UIButton) {
         if (MFMailComposeViewController.canSendMail()) {
-            // Check detail contact has a value
             guard let detailContact = self.detailContact else { return }
             
             // Open email
@@ -131,7 +131,6 @@ class DetailContactViewController: UIViewController {
     }
     
     @IBAction func favoriteButtonTapped(_ sender: UIButton) {
-        // Check detail contact has a value
         guard let detailContact = self.detailContact, let contactURL = url else { return }
         
         Spinner.shared.showSpinner(onView: view)

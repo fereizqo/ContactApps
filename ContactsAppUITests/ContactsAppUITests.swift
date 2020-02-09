@@ -27,9 +27,52 @@ class ContactsAppUITests: XCTestCase {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    func testTapRandom() {
+        let app = XCUIApplication()
+        let tablesQuery = app.tables
+        tablesQuery/*@START_MENU_TOKEN@*/.staticTexts["A1a A1aaa"]/*[[".cells.staticTexts[\"A1a A1aaa\"]",".staticTexts[\"A1a A1aaa\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["message button"].tap()
+        app.navigationBars["ContactsApp.DetailContactView"].buttons["Contact"].tap()
+        app.navigationBars["Contact"].buttons["plus"].tap()
+        tablesQuery.cells.containing(.staticText, identifier:"First Name").textFields["Input here"].tap()
+        app.navigationBars["ContactsApp.EditContactView"].buttons["Cancel"].tap()
+        app.sheets["Alert"].scrollViews.otherElements.buttons["Discard"].tap()
+    }
+    
+    func testTapFavorite() {
+        let app = XCUIApplication()
+        let a2A2StaticText = app.tables/*@START_MENU_TOKEN@*/.staticTexts["A2 A2"]/*[[".cells.staticTexts[\"A2 A2\"]",".staticTexts[\"A2 A2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        a2A2StaticText.tap()
+        
+        let favouriteButtonSelectedButton = app.buttons["favourite button selected"]
+        favouriteButtonSelectedButton.tap()
+        
+        let okButton = app.alerts["Success"].scrollViews.otherElements.buttons["Ok"]
+        okButton.tap()
+        
+        let favouriteButtonButton = app.buttons["favourite button"]
+        favouriteButtonButton.tap()
+        okButton.tap()
+        favouriteButtonSelectedButton.tap()
+        okButton.tap()
+        favouriteButtonButton.tap()
+        okButton.tap()
+        favouriteButtonSelectedButton.tap()
+        okButton.tap()
+        
+        let contactButton = app.navigationBars["ContactsApp.DetailContactView"].buttons["Contact"]
+        contactButton.tap()
+        a2A2StaticText.tap()
+        favouriteButtonButton.tap()
+        okButton.tap()
+        favouriteButtonSelectedButton.tap()
+        okButton.tap()
+        favouriteButtonButton.tap()
+        okButton.tap()
+        contactButton.tap()
+        
     }
 
 //    func testLaunchPerformance() {

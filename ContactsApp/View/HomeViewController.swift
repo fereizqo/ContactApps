@@ -40,12 +40,11 @@ class HomeViewController: UIViewController {
     
     func getAllContacts() {
         APIRequest.shared.getContacts { result, error  in
+            Spinner.shared.removeSpinner()
             if error == nil {
                 self.contacts.append(result)
                 self.homeTableView.reloadData()
-                Spinner.shared.removeSpinner()
             } else {
-                Spinner.shared.removeSpinner()
                 let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
                 self.present(alert, animated: true, completion: nil)
             }

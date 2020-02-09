@@ -56,13 +56,18 @@ class EditContactViewController: UIViewController {
         let alert = UIAlertController(title: "Alert", message: "Are you sure want to discard?", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { action in
             self.navigationController?.dismiss(animated: true, completion: nil)
+            alert.dismiss(animated: true, completion: nil)
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        }))
         self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func doneBarButtonTapped(_ sender: UIBarButtonItem) {
+        // Show spinner
         Spinner.shared.showSpinner(onView: view)
+        // Do request
         doFillForm()
     }
     
@@ -114,20 +119,25 @@ extension EditContactViewController: UITableViewDataSource, UITableViewDelegate,
 
 extension EditContactViewController {
     func doFillForm() {
+        // Parameter request
+        var parameter: Parameters = [
+            "first_name": form[0],
+            "last_name": form[1],
+            "email": form[3],
+            "phone_number" : form[2],
+            "favorite": "false"
+        ]
+        
         // Detect whether it editing or adding contact
         if let detailContact = self.detailContact {
             
             // Editing contact, do Put Request
             let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(detailContact.id).json"
-            let parameter: Parameters = [
-                "first_name": form[0],
-                "last_name": form[1],
-                "email": form[3],
-                "phone_number" : form[2],
-                "favorite": "\(detailContact.favorite)"
-            ]
+            parameter["favorite"] = "\(detailContact.favorite)"
             APIRequest.shared.updateContact(url: url, parameter: parameter) { result, statusCode, error  in
+                // Remove spinner
                 Spinner.shared.removeSpinner()
+                // Result
                 if error == nil {
                     switch statusCode {
                     case 200:
@@ -140,7 +150,6 @@ extension EditContactViewController {
                         let alert = Helper.makeAlert(title: "Alert", messages: "\(result)")
                         self.present(alert, animated: true, completion: nil)
                     }
-                    // Give alert
                     let alert = Helper.makeAlert(title: "Succes", messages: "\(result)")
                     self.present(alert, animated: true, completion: nil)
                 } else {
@@ -152,19 +161,12 @@ extension EditContactViewController {
             
             // Adding Contact, do Post Request
             let url = "https://gojek-contacts-app.herokuapp.com/contacts.json"
-            let parameter: Parameters = [
-                "first_name": form[0],
-                "last_name": form[1],
-                "email": form[3],
-                "phone_number" : form[2],
-                "favorite": "false"
-            ]
-            
             APIRequest.shared.createContact(url: url, parameter: parameter) { result, statusCode, error  in
+                // Remove spinner
                 Spinner.shared.removeSpinner()
+                // Result
                 if error == nil {
                     if error == nil {
-                        // Give alert
                         switch statusCode {
                         case 201:
                             let alert = UIAlertController(title: "Success", message: "Created a contact", preferredStyle: .alert)
