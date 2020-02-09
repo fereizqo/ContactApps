@@ -57,7 +57,7 @@ class EditContactViewController: UIViewController {
     }
     
     @IBAction func doneBarButtonTapped(_ sender: UIBarButtonItem) {
-            editFormDone()
+        doFillForm()
     }
     
 }
@@ -107,11 +107,10 @@ extension EditContactViewController: UITableViewDataSource, UITableViewDelegate,
 }
 
 extension EditContactViewController {
-    func editFormDone() {
-        let header = ["Content-Type": "application/json"]
-        
+    func doFillForm() {
         // Detect whether it editing or adding contact
         if let detailContact = self.detailContact {
+            
             // Editing contact, do Put Request
             let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(detailContact.id).json"
             let parameter: Parameters = [
@@ -121,77 +120,39 @@ extension EditContactViewController {
                 "phone_number" : form[2],
                 "favorite": "\(detailContact.favorite)"
             ]
-            Alamofire.request(url, method: .put, parameters: parameter, encoding: JSONEncoding.default, headers: header)
-                .responseJSON { response in
-                    // Check response is success or not
-                    guard response.result.isSuccess,
-                    // If response is success, get the value from response
-                    let value = response.result.value else {
-                        // If response is failed, show error message
-                        print("Problem when connecting server")
-                        return
-                    }
-                    // Check status response
-                    switch response.response?.statusCode {
-                    case 422:
-                        let data = JSON(value)["errors"].arrayValue
-                        var message = ""
-                        for error in data {
-                            message += "\(error.stringValue) \n"
-                        }
-                        let alert = Helper.makeAlert(title: "Alert", messages: "\(message)")
-                        self.present(alert, animated: true, completion: nil)
-                        break
-                    case 200:
-                        let alert = Helper.makeAlert(title: "Succes", messages: "Contact successfully updated")
-                        self.dismiss(animated: true, completion: nil)
-                        self.present(alert, animated: true, completion: nil)
-                    default:
-                        let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
-                        self.present(alert, animated: true, completion: nil)
-                        break
-                    }
+            APIRequest.shared.updateContact(url: url, parameter: parameter) { result, error in
+                if error == nil {
+                    // Give alert
+                    let alert = Helper.makeAlert(title: "Succes", messages: "\(result)")
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
         } else {
+            
             // Adding Contact, do Post Request
             let url = "https://gojek-contacts-app.herokuapp.com/contacts.json"
             let parameter: Parameters = [
                 "first_name": form[0],
                 "last_name": form[1],
-                "email": form[2],
-                "phone_number" : form[3],
+                "email": form[3],
+                "phone_number" : form[2],
                 "favorite": "false"
             ]
-            Alamofire.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
-                .responseJSON { response in
-                    // Check response is success or not
-                    guard response.result.isSuccess,
-                    // If response is success, get the value from response
-                    let value = response.result.value else {
-                        // If response is failed, show error message
-                        print("Problem when connecting server")
-                        return
+            
+            APIRequest.shared.createContact(url: url, parameter: parameter) { result, error in
+                if error == nil {
+                    if error == nil {
+                        // Give alert
+                        let alert = Helper.makeAlert(title: "Alert", messages: "\(result)")
+                        self.present(alert, animated: true, completion: nil)
+                    } else {
+                        let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
+                        self.present(alert, animated: true, completion: nil)
                     }
-                    // Check status response
-                    switch response.response?.statusCode {
-                    case 422:
-                        let data = JSON(value)["errors"].arrayValue
-                        var message = ""
-                        for error in data {
-                            message += "\(error.stringValue) \n"
-                        }
-                        let alert = Helper.makeAlert(title: "Alert", messages: "\(message)")
-                        self.present(alert, animated: true, completion: nil)
-                        break
-                    case 201:
-                        let alert = Helper.makeAlert(title: "Succes", messages: "Contact successfully created")
-                        self.dismiss(animated: true, completion: nil)
-                        self.present(alert, animated: true, completion: nil)
-                    default:
-                        let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
-                        self.present(alert, animated: true, completion: nil)
-                        break
-                    }
+                }
             }
         }
     }

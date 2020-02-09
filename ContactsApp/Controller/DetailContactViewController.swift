@@ -28,6 +28,7 @@ class DetailContactViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Load detail contact data, Put request
+        Spinner.shared.showSpinner(onView: view)
         getDetailContactData()
         
         // Register xib cell
@@ -44,6 +45,31 @@ class DetailContactViewController: UIViewController {
         // Set appearance
         nameContactLabel.sizeToFit()
         topView.setGradient(colorTop: .white, colorBottom: Helper.primaryColor)
+    }
+    
+    func getDetailContactData() {
+        guard let contactURL = url else { return }
+        APIRequest.shared.getDetailContacts(url: contactURL) { result, error in
+            if error == nil {
+                // Reload Data and Interface
+                self.labelDetail = [result.phone_number,result.email]
+                self.nameContactLabel.text = "\(result.first_name) \(result.last_name)"
+                
+                if result.favorite {
+                    self.favoriteButton.setImage(UIImage(named: "favourite_button_selected"), for: .normal)
+                } else {
+                    self.favoriteButton.setImage(UIImage(named: "favourite_button"), for: .normal)
+                }
+                
+                self.detailContact = result
+                self.detailContactTableView.reloadData()
+                Spinner.shared.removeSpinner()
+            } else {
+                Spinner.shared.removeSpinner()
+                let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     @IBAction func editBarButtonTapped(_ sender: UIBarButtonItem) {
@@ -98,7 +124,9 @@ class DetailContactViewController: UIViewController {
     
     @IBAction func favoriteButtonTapped(_ sender: UIButton) {
         // Check detail contact has a value
-        guard let detailContact = self.detailContact else { return }
+        guard let detailContact = self.detailContact, let contactURL = url else { return }
+        
+        Spinner.shared.showSpinner(onView: view)
         
         // Change fav pict when tapped
         if detailContact.favorite {
@@ -108,7 +136,23 @@ class DetailContactViewController: UIViewController {
         }
         
         // Update favorite, Put request
-        updateFavorite()
+        let parameter: Parameters = [
+            "favorite": "\(!(detailContact.favorite))"
+        ]
+        APIRequest.shared.updateContact(url: contactURL, parameter: parameter) { result, error in
+            if error == nil {
+                Spinner.shared.removeSpinner()
+                // Update local data
+                self.detailContact?.favorite = !(detailContact.favorite)
+                // Give alert
+                let alert = Helper.makeAlert(title: "Succes", messages: "\(result)")
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                Spinner.shared.removeSpinner()
+                let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
         
     }
     
@@ -136,110 +180,5 @@ extension DetailContactViewController: MFMessageComposeViewControllerDelegate, M
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension DetailContactViewController {
-    func getDetailContactData() {
-        guard let contactURL = url else { return }
-        
-        // Reset data
-        self.detailContact = nil
-        self.labelDetail.removeAll()
-        self.labelHeader.removeAll()
-        
-        // Request API
-        Alamofire.request(contactURL, method: .get)
-           .responseJSON(completionHandler: {
-               (response) in
-               
-            // Check response is success or not
-            guard response.result.isSuccess,
-            // If response is success, get the value from response
-            let value = response.result.value else {
-                // If response is failed, show error message
-                let alert = Helper.makeAlert(title: "Alert", messages: "Problem when connecting server")
-                self.present(alert, animated: true, completion: nil)
-                return
-            }
-
-            if response.response?.statusCode == 200 {
-                // If response success, do something here
-                let json = JSON(value)
-                
-                // Get Required Data
-                let id = json["id"].intValue
-                let first_name = json["first_name"].stringValue
-                let last_name = json["last_name"].stringValue
-                let email = json["email"].stringValue
-                let phone_number = json["phone_number"].stringValue
-                let profile_pic = json["profile_pic"].stringValue
-                let favorite = json["favorite"].boolValue
-                
-                self.detailContact = DetailContact(id: id, first_name: first_name, last_name: last_name, email: email, phone_number: phone_number, profile_pic: profile_pic, favorite: favorite)
-                self.labelDetail.append(contentsOf: [phone_number,email])
-                self.labelHeader.append(contentsOf: ["mobile","email"])
-                
-                // Reload Interface
-                self.nameContactLabel.text = "\(first_name) \(last_name)"
-                
-                if favorite {
-                    self.favoriteButton.setImage(UIImage(named: "favourite_button_selected"), for: .normal)
-                } else {
-                    self.favoriteButton.setImage(UIImage(named: "favourite_button"), for: .normal)
-                }
-                
-                self.detailContactTableView.reloadData()
-                
-            } else {
-                // If response error, do something here
-                let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
-                self.present(alert, animated: true, completion: nil)
-            }
-        })
-    }
-    
-    func updateFavorite() {
-        // Check detail contact has a value
-        guard let detailContact = self.detailContact else { return }
-        
-        // Put request
-        let url = "https://gojek-contacts-app.herokuapp.com/contacts/\(detailContact.id).json"
-        let header = ["Content-Type": "application/json"]
-        let parameter: Parameters = [
-            "favorite": "\(!(detailContact.favorite))"
-        ]
-        
-        Alamofire.request(url, method: .put, parameters: parameter, encoding: JSONEncoding.default, headers: header)
-            .responseJSON { response in
-                // Check response is success or not
-                guard response.result.isSuccess,
-                // If response is success, get the value from response
-                let value = response.result.value else {
-                    // If response is failed, show error message
-                    print("Problem when connecting server")
-                    return
-                }
-                // Check status response
-                switch response.response?.statusCode {
-                case 422:
-                    let data = JSON(value)["errors"].arrayValue
-                    var message = ""
-                    for error in data {
-                        message += "\(error.stringValue) \n"
-                    }
-                    let alert = Helper.makeAlert(title: "Alert", messages: "\(message)")
-                    self.present(alert, animated: true, completion: nil)
-                    break
-                case 200:
-                    let alert = Helper.makeAlert(title: "Favorite", messages: "Favorite successfully updated")
-                    self.present(alert, animated: true, completion: nil)
-                    self.detailContact?.favorite = !(detailContact.favorite)
-                default:
-                    let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
-                    self.present(alert, animated: true, completion: nil)
-                    break
-                }
-        }
     }
 }

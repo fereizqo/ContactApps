@@ -34,6 +34,7 @@ class HomeViewController: UIViewController {
         
         // Get contact with loading spinner
         Spinner.shared.showSpinner(onView: view)
+        self.contacts.removeAll()
         getAllContacts()
     }
     
@@ -44,6 +45,7 @@ class HomeViewController: UIViewController {
                 self.homeTableView.reloadData()
                 Spinner.shared.removeSpinner()
             } else {
+                Spinner.shared.removeSpinner()
                 let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
                 self.present(alert, animated: true, completion: nil)
             }
