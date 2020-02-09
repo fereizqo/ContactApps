@@ -166,22 +166,20 @@ extension EditContactViewController {
                 Spinner.shared.removeSpinner()
                 // Result
                 if error == nil {
-                    if error == nil {
-                        switch statusCode {
-                        case 201:
-                            let alert = UIAlertController(title: "Success", message: "Created a contact", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-                                self.navigationController?.dismiss(animated: true, completion: nil)
-                            }))
-                            self.present(alert, animated: true, completion: nil)
-                        default:
-                            let alert = Helper.makeAlert(title: "Alert", messages: "\(result)")
-                            self.present(alert, animated: true, completion: nil)
-                        }
-                    } else {
-                        let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
+                    switch statusCode {
+                    case 201:
+                        let alert = UIAlertController(title: "Success", message: "Created a contact", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                            self.navigationController?.dismiss(animated: true, completion: nil)
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    default:
+                        let alert = Helper.makeAlert(title: "Alert", messages: "\(result)")
                         self.present(alert, animated: true, completion: nil)
                     }
+                } else {
+                    let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }

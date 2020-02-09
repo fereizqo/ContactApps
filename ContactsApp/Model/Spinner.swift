@@ -21,12 +21,10 @@ class Spinner {
         let spinner = UIActivityIndicatorView.init(style: .medium)
         spinner.startAnimating()
         spinner.center = spinnerView.center
-
-        DispatchQueue.main.async {
-            spinnerView.addSubview(spinner)
-            onView.addSubview(spinnerView)
-        }
-
+        
+        spinnerView.addSubview(spinner)
+        onView.addSubview(spinnerView)
+        
         loader = spinnerView
     }
 

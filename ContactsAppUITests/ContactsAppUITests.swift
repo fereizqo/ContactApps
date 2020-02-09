@@ -22,65 +22,47 @@ class ContactsAppUITests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() {
+    
+    func testFoundText() {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
-    }
-    
-    func testTapRandom() {
-        let app = XCUIApplication()
-        let tablesQuery = app.tables
-        tablesQuery/*@START_MENU_TOKEN@*/.staticTexts["A1a A1aaa"]/*[[".cells.staticTexts[\"A1a A1aaa\"]",".staticTexts[\"A1a A1aaa\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app.buttons["message button"].tap()
-        app.navigationBars["ContactsApp.DetailContactView"].buttons["Contact"].tap()
-        app.navigationBars["Contact"].buttons["plus"].tap()
-        tablesQuery.cells.containing(.staticText, identifier:"First Name").textFields["Input here"].tap()
-        app.navigationBars["ContactsApp.EditContactView"].buttons["Cancel"].tap()
-        app.sheets["Alert"].scrollViews.otherElements.buttons["Discard"].tap()
-    }
-    
-    func testTapFavorite() {
-        let app = XCUIApplication()
+        
         let a2A2StaticText = app.tables/*@START_MENU_TOKEN@*/.staticTexts["A2 A2"]/*[[".cells.staticTexts[\"A2 A2\"]",".staticTexts[\"A2 A2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        a2A2StaticText.tap()
+        let predicate = NSPredicate(format: "exist == true")
+        let myExpectation = expectation(for: predicate, evaluatedWith: a2A2StaticText, handler: nil)
         
-        let favouriteButtonSelectedButton = app.buttons["favourite button selected"]
-        favouriteButtonSelectedButton.tap()
-        
-        let okButton = app.alerts["Success"].scrollViews.otherElements.buttons["Ok"]
-        okButton.tap()
-        
-        let favouriteButtonButton = app.buttons["favourite button"]
-        favouriteButtonButton.tap()
-        okButton.tap()
-        favouriteButtonSelectedButton.tap()
-        okButton.tap()
-        favouriteButtonButton.tap()
-        okButton.tap()
-        favouriteButtonSelectedButton.tap()
-        okButton.tap()
-        
-        let contactButton = app.navigationBars["ContactsApp.DetailContactView"].buttons["Contact"]
-        contactButton.tap()
-        a2A2StaticText.tap()
-        favouriteButtonButton.tap()
-        okButton.tap()
-        favouriteButtonSelectedButton.tap()
-        okButton.tap()
-        favouriteButtonButton.tap()
-        okButton.tap()
-        contactButton.tap()
-        
+        let result = XCTWaiter().wait(for: [myExpectation], timeout: 5)
     }
-
-//    func testLaunchPerformance() {
-//        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-//            // This measures how long it takes to launch your application.
-//            measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
-//                XCUIApplication().launch()
-//            }
-//        }
+    
+//    func testTap() {
+//        let app = XCUIApplication()
+//        app.launch()
+//
+//        let a2A2StaticText = app.tables/*@START_MENU_TOKEN@*/.staticTexts["A2 A2"]/*[[".cells.staticTexts[\"A2 A2\"]",".staticTexts[\"A2 A2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+//        waitForExpectations(timeout: 3, handler: nil)
+//        a2A2StaticText.tap()
+//
+//        let favouriteButtonSelectedButton = app.buttons["favourite button"]
+//        favouriteButtonSelectedButton.tap()
+//        
+//        let okButton = app.alerts["Success"].scrollViews.otherElements.buttons["Ok"]
+//        okButton.tap()
+//
+//        let contactButton = app.navigationBars["ContactsApp.DetailContactView"].buttons["Contact"]
+//        contactButton.tap()
+//
+//        a2A2StaticText.tap()
+//        favouriteButtonSelectedButton.tap()
+//        okButton.tap()
 //    }
+
+    func testLaunchPerformance() {
+        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
+            // This measures how long it takes to launch your application.
+            measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
+                XCUIApplication().launch()
+            }
+        }
+    }
 }

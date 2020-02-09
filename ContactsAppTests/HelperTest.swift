@@ -10,10 +10,5 @@ import XCTest
 @testable import ContactsApp
 
 class HelperTest: XCTestCase {
-    let helper = Helper()
     
-    func testGetContactData() {
-        let result = helper.getContactData()
-        XCTAssertNotNil(result)
-    }
 }
