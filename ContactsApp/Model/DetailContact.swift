@@ -12,8 +12,8 @@ class DetailContact {
     let id: Int
     let first_name: String
     let last_name: String
-    let email: String
-    let phone_number: String
+    var email: String
+    var phone_number: String
     let profile_pic: String
     var favorite: Bool
     

@@ -26,7 +26,7 @@ class APIRequest {
             .responseJSON { response in
                 switch response.result {
                 case .success(let value):
-                    let listData = JSON(value).arrayValue
+                    let listData = JSON(value).arrayValue.sorted(by: {$0["first_name"].stringValue.lowercased() < $1["first_name"].stringValue.lowercased()})
                     for data in listData {
                         let id = JSON(data["id"]).intValue
                         let first_name = JSON(data["first_name"]).stringValue
@@ -82,11 +82,11 @@ class APIRequest {
     
     // MARK: - Put Request: Update Detail Contact
     
-    func updateContact(url: String, parameter: Parameters, completionHandler: @escaping (String, NSError?) -> Void) {
+    func updateContact(url: String, parameter: Parameters, completionHandler: @escaping (String, Int, NSError?) -> Void) {
         updateContactRequest(url: url, parameter: parameter, completion: completionHandler)
     }
     
-    func updateContactRequest(url: String, parameter: Parameters, completion: @escaping (String, NSError?) -> Void) {
+    func updateContactRequest(url: String, parameter: Parameters, completion: @escaping (String, Int, NSError?) -> Void) {
         let url = url
         let header = ["Content-Type": "application/json"]
 
@@ -95,6 +95,7 @@ class APIRequest {
                 switch response.result {
                 case .success(_):
                     var message = ""
+                    let statusCode = response.response?.statusCode
                     // Check response is success or not
                     guard response.result.isSuccess,
                     // If response is success, get the value from response
@@ -112,21 +113,21 @@ class APIRequest {
                         message = "Problem when connecting server"
                     }
                     
-                    completion(message, nil)
+                    completion(message, statusCode ?? 0, nil)
                     
                 case .failure(let error):
-                    completion("", error as NSError)
+                    completion("", 0, error as NSError)
                 }
         }
     }
     
     // MARK: - Post Request: Create Contact
     
-    func createContact(url: String, parameter: Parameters, completionHandler: @escaping (String, NSError?) -> Void) {
+    func createContact(url: String, parameter: Parameters, completionHandler: @escaping (String, Int, NSError?) -> Void) {
         createContactRequest(url: url, parameter: parameter, completion: completionHandler)
     }
     
-    func createContactRequest(url: String, parameter: Parameters, completion: @escaping (String, NSError?) -> Void) {
+    func createContactRequest(url: String, parameter: Parameters, completion: @escaping (String, Int, NSError?) -> Void) {
         let url = url
         let header = ["Content-Type": "application/json"]
         
@@ -135,6 +136,7 @@ class APIRequest {
                 switch response.result {
                 case .success(_):
                     var message = ""
+                    let statusCode = response.response?.statusCode
                     // Check response is success or not
                     guard response.result.isSuccess,
                     // If response is success, get the value from response
@@ -152,10 +154,10 @@ class APIRequest {
                         message = "Problem when connecting server"
                     }
                     
-                    completion(message, nil)
+                    completion(message, statusCode ?? 0, nil)
                     
                 case .failure(let error):
-                    completion("", error as NSError)
+                    completion("", 0, error as NSError)
                 }
         }
     }

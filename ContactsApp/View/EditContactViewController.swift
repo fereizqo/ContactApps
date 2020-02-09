@@ -53,10 +53,16 @@ class EditContactViewController: UIViewController {
     }
     
     @IBAction func cancelBarButtonTapped(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
+        let alert = UIAlertController(title: "Alert", message: "Are you sure want to discard?", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { action in
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func doneBarButtonTapped(_ sender: UIBarButtonItem) {
+        Spinner.shared.showSpinner(onView: view)
         doFillForm()
     }
     
@@ -120,8 +126,20 @@ extension EditContactViewController {
                 "phone_number" : form[2],
                 "favorite": "\(detailContact.favorite)"
             ]
-            APIRequest.shared.updateContact(url: url, parameter: parameter) { result, error in
+            APIRequest.shared.updateContact(url: url, parameter: parameter) { result, statusCode, error  in
+                Spinner.shared.removeSpinner()
                 if error == nil {
+                    switch statusCode {
+                    case 200:
+                        let alert = UIAlertController(title: "Success", message: "Updated a contact", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                            self.navigationController?.dismiss(animated: true, completion: nil)
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    default:
+                        let alert = Helper.makeAlert(title: "Alert", messages: "\(result)")
+                        self.present(alert, animated: true, completion: nil)
+                    }
                     // Give alert
                     let alert = Helper.makeAlert(title: "Succes", messages: "\(result)")
                     self.present(alert, animated: true, completion: nil)
@@ -142,12 +160,22 @@ extension EditContactViewController {
                 "favorite": "false"
             ]
             
-            APIRequest.shared.createContact(url: url, parameter: parameter) { result, error in
+            APIRequest.shared.createContact(url: url, parameter: parameter) { result, statusCode, error  in
+                Spinner.shared.removeSpinner()
                 if error == nil {
                     if error == nil {
                         // Give alert
-                        let alert = Helper.makeAlert(title: "Alert", messages: "\(result)")
-                        self.present(alert, animated: true, completion: nil)
+                        switch statusCode {
+                        case 201:
+                            let alert = UIAlertController(title: "Success", message: "Created a contact", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                                self.navigationController?.dismiss(animated: true, completion: nil)
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                        default:
+                            let alert = Helper.makeAlert(title: "Alert", messages: "\(result)")
+                            self.present(alert, animated: true, completion: nil)
+                        }
                     } else {
                         let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
                         self.present(alert, animated: true, completion: nil)
