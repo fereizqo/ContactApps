@@ -34,9 +34,27 @@ class HomeViewController: UIViewController {
         
         // Get contact with loading spinner
         Spinner.shared.showSpinner(onView: view)
-        getContactData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        loadData()
+//        getContactData()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            Spinner.shared.removeSpinner()
+//        }
+    }
+    
+    func loadData() {
+        let data = APIRequest.shared.getContactData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            print("Response: \(data.1)")
             Spinner.shared.removeSpinner()
+            if data.1 == 200 {
+                print("Load data")
+            } else {
+                let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(data.1). \n Problem when connecting server")
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        DispatchQueue.main.async {
+            
         }
     }
     

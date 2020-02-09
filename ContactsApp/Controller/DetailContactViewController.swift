@@ -22,7 +22,7 @@ class DetailContactViewController: UIViewController {
     
     var url: String?
     var detailContact: DetailContact?
-    var labelDetail = ["-", "-"]
+    var labelDetail = ["", ""]
     var labelHeader = ["mobile", "email"]
     
     override func viewDidLoad() {
@@ -113,7 +113,6 @@ class DetailContactViewController: UIViewController {
     }
     
 }
-
 
 extension DetailContactViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

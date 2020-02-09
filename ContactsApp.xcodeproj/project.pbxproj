@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4904406A23ECFD6100D2BB7A /* DetailContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4904406923ECFD6100D2BB7A /* DetailContact.swift */; };
 		4904406C23EFB42E00D2BB7A /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4904406B23EFB42E00D2BB7A /* Spinner.swift */; };
+		4904406F23EFBF1100D2BB7A /* DeleteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4904406D23EFBF1100D2BB7A /* DeleteTableViewCell.swift */; };
+		4904407223EFC13000D2BB7A /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4904407123EFC13000D2BB7A /* APIRequest.swift */; };
 		497156B623EBEDD5001E1714 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497156B523EBEDD5001E1714 /* AppDelegate.swift */; };
 		497156B823EBEDD5001E1714 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497156B723EBEDD5001E1714 /* SceneDelegate.swift */; };
 		497156BD23EBEDD5001E1714 /* HomeScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 497156BB23EBEDD5001E1714 /* HomeScreen.storyboard */; };
@@ -57,6 +59,8 @@
 		3BB4FA70856424471B0D7168 /* Pods-ContactsApp-ContactsAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContactsApp-ContactsAppUITests.release.xcconfig"; path = "Target Support Files/Pods-ContactsApp-ContactsAppUITests/Pods-ContactsApp-ContactsAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		4904406923ECFD6100D2BB7A /* DetailContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailContact.swift; sourceTree = "<group>"; };
 		4904406B23EFB42E00D2BB7A /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
+		4904406D23EFBF1100D2BB7A /* DeleteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTableViewCell.swift; sourceTree = "<group>"; };
+		4904407123EFC13000D2BB7A /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		497156B223EBEDD5001E1714 /* ContactsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		497156B523EBEDD5001E1714 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		497156B723EBEDD5001E1714 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +184,7 @@
 				4904406923ECFD6100D2BB7A /* DetailContact.swift */,
 				49CD52AB23EBF6E800CE274B /* Helper.swift */,
 				4904406B23EFB42E00D2BB7A /* Spinner.swift */,
+				4904407123EFC13000D2BB7A /* APIRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -188,10 +193,10 @@
 			isa = PBXGroup;
 			children = (
 				497156BB23EBEDD5001E1714 /* HomeScreen.storyboard */,
-				49CD52B223EC0BF200CE274B /* ContactTableViewCell.xib */,
 				49CD52B723EC208200CE274B /* EditContactScreen.storyboard */,
-				49CD52BA23EC258E00CE274B /* EditContactTableViewCell.xib */,
 				49CD52BF23EC36B700CE274B /* DetailContactScreen.storyboard */,
+				49CD52B223EC0BF200CE274B /* ContactTableViewCell.xib */,
+				49CD52BA23EC258E00CE274B /* EditContactTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -204,6 +209,7 @@
 				49CD52C123EC425900CE274B /* DetailContactViewController.swift */,
 				49CD52BD23EC28E800CE274B /* EditContactViewController.swift */,
 				49CD52B923EC258E00CE274B /* EditContactTableViewCell.swift */,
+				4904406D23EFBF1100D2BB7A /* DeleteTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -476,6 +482,7 @@
 			files = (
 				4904406C23EFB42E00D2BB7A /* Spinner.swift in Sources */,
 				49CD52BB23EC258E00CE274B /* EditContactTableViewCell.swift in Sources */,
+				4904407223EFC13000D2BB7A /* APIRequest.swift in Sources */,
 				49CD52C223EC425900CE274B /* DetailContactViewController.swift in Sources */,
 				49CD52B323EC0BF200CE274B /* ContactTableViewCell.swift in Sources */,
 				49CD52A823EBEF8500CE274B /* Contact.swift in Sources */,
@@ -484,6 +491,7 @@
 				497156B623EBEDD5001E1714 /* AppDelegate.swift in Sources */,
 				4904406A23ECFD6100D2BB7A /* DetailContact.swift in Sources */,
 				49CD52B623EC101400CE274B /* HomeViewController.swift in Sources */,
+				4904406F23EFBF1100D2BB7A /* DeleteTableViewCell.swift in Sources */,
 				497156B823EBEDD5001E1714 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
