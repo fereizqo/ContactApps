@@ -21,7 +21,6 @@
 		497156D823EBEDD6001E1714 /* ContactsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497156D723EBEDD6001E1714 /* ContactsAppUITests.swift */; };
 		49CD52A823EBEF8500CE274B /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CD52A723EBEF8500CE274B /* Contact.swift */; };
 		49CD52AC23EBF6E800CE274B /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CD52AB23EBF6E800CE274B /* Helper.swift */; };
-		49CD52AE23EBF89200CE274B /* HelperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CD52AD23EBF89200CE274B /* HelperTest.swift */; };
 		49CD52B323EC0BF200CE274B /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CD52B123EC0BF200CE274B /* ContactTableViewCell.swift */; };
 		49CD52B423EC0BF200CE274B /* ContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49CD52B223EC0BF200CE274B /* ContactTableViewCell.xib */; };
 		49CD52B623EC101400CE274B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CD52B523EC101400CE274B /* HomeViewController.swift */; };
@@ -78,7 +77,6 @@
 		497156D923EBEDD6001E1714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49CD52A723EBEF8500CE274B /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		49CD52AB23EBF6E800CE274B /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
-		49CD52AD23EBF89200CE274B /* HelperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperTest.swift; sourceTree = "<group>"; };
 		49CD52B123EC0BF200CE274B /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		49CD52B223EC0BF200CE274B /* ContactTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
 		49CD52B523EC101400CE274B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = ContactsApp/View/HomeViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -151,10 +149,7 @@
 				49CD52A423EBEEFA00CE274B /* Model */,
 				49CD52A523EBEF0600CE274B /* View */,
 				49CD52A623EBEF0A00CE274B /* Controller */,
-				497156B523EBEDD5001E1714 /* AppDelegate.swift */,
-				497156B723EBEDD5001E1714 /* SceneDelegate.swift */,
 				497156BE23EBEDD5001E1714 /* Assets.xcassets */,
-				497156C023EBEDD5001E1714 /* LaunchScreen.storyboard */,
 				497156C323EBEDD5001E1714 /* Info.plist */,
 			);
 			path = ContactsApp;
@@ -164,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				497156CC23EBEDD6001E1714 /* ContactsAppTests.swift */,
-				49CD52AD23EBF89200CE274B /* HelperTest.swift */,
 				4904407323F02FA900D2BB7A /* APIRequestTest.swift */,
 				497156CE23EBEDD6001E1714 /* Info.plist */,
 			);
@@ -195,6 +189,7 @@
 		49CD52A523EBEF0600CE274B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				497156C023EBEDD5001E1714 /* LaunchScreen.storyboard */,
 				497156BB23EBEDD5001E1714 /* HomeScreen.storyboard */,
 				49CD52B723EC208200CE274B /* EditContactScreen.storyboard */,
 				49CD52BF23EC36B700CE274B /* DetailContactScreen.storyboard */,
@@ -207,6 +202,8 @@
 		49CD52A623EBEF0A00CE274B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				497156B523EBEDD5001E1714 /* AppDelegate.swift */,
+				497156B723EBEDD5001E1714 /* SceneDelegate.swift */,
 				49CD52B523EC101400CE274B /* HomeViewController.swift */,
 				49CD52B123EC0BF200CE274B /* ContactTableViewCell.swift */,
 				49CD52C123EC425900CE274B /* DetailContactViewController.swift */,
@@ -504,7 +501,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				497156CD23EBEDD6001E1714 /* ContactsAppTests.swift in Sources */,
-				49CD52AE23EBF89200CE274B /* HelperTest.swift in Sources */,
 				4904407423F02FA900D2BB7A /* APIRequestTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
