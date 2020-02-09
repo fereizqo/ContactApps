@@ -34,27 +34,19 @@ class HomeViewController: UIViewController {
         
         // Get contact with loading spinner
         Spinner.shared.showSpinner(onView: view)
-        loadData()
-//        getContactData()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            Spinner.shared.removeSpinner()
-//        }
+        getAllContacts()
     }
     
-    func loadData() {
-        let data = APIRequest.shared.getContactData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            print("Response: \(data.1)")
-            Spinner.shared.removeSpinner()
-            if data.1 == 200 {
-                print("Load data")
+    func getAllContacts() {
+        APIRequest.shared.getContacts { result, error  in
+            if error == nil {
+                self.contacts.append(result)
+                self.homeTableView.reloadData()
+                Spinner.shared.removeSpinner()
             } else {
-                let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(data.1). \n Problem when connecting server")
+                let alert = Helper.makeAlert(title: "Alert", messages: "There is problem when connecting server")
                 self.present(alert, animated: true, completion: nil)
             }
-        }
-        DispatchQueue.main.async {
-            
         }
     }
     
@@ -89,53 +81,5 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         vc.url = "\(contacts[indexPath.row].url)"
         nc.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-extension HomeViewController {
-    func getContactData() {
-        // Reset contact data
-        self.contacts.removeAll()
-        
-        Alamofire.request("https://gojek-contacts-app.herokuapp.com/contacts.json", method: .get)
-           .responseJSON(completionHandler: {
-               (response) in
-               
-            // Check response is success or not
-            guard response.result.isSuccess,
-            // If response is success, get the value from response
-            let value = response.result.value else {
-                // If response is failed, show error message
-                let alert = Helper.makeAlert(title: "Alert", messages: "Problem when connecting server")
-                self.present(alert, animated: true, completion: nil)
-                return
-            }
-
-            if response.response?.statusCode == 200 {
-                // If response success, do something here
-                let listData = JSON(value).arrayValue.sorted(by: {$0["first_name"] < $1["first_name"]})
-               
-                // Get required data
-                for data in listData {
-                    let id = JSON(data["id"]).intValue
-                    let first_name = JSON(data["first_name"]).stringValue
-                    let last_name = JSON(data["last_name"]).stringValue
-                    let profile_pic = JSON(data["profile_pic"]).stringValue
-                    let favorite = JSON(data["favorite"]).boolValue
-                    let url = JSON(data["url"]).stringValue
-                    
-                    let contact = Contact(id: id, first_name: first_name, last_name: last_name, profile_pic: profile_pic, favorite: favorite, url: url)
-                    self.contacts.append(contact)
-                }
-                
-                // Reload tableview
-                self.homeTableView.reloadData()
-                
-            } else {
-                // If response error, do something here
-                let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
-                self.present(alert, animated: true, completion: nil)
-            }
-        })
     }
 }
