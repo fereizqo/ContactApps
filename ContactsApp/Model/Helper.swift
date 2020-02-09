@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class Helper {
     
-    var contacts: [Contact] = []
+    public static let primaryColor = UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 0.3)
     
     public static func makeAlert(title: String, messages: String) -> UIAlertController {
         let alert = UIAlertController(title: title, message: messages, preferredStyle: .alert)
@@ -20,6 +20,8 @@ class Helper {
         alert.addAction(action)
         return alert
     }
+    
+    var contacts: [Contact] = []
     
     func getContactData() {
         Alamofire.request("http://gojek-contacts-app.herokuapp.com/contacts.json", method: .get)
@@ -71,5 +73,18 @@ extension UIImageView {
                 }
             }
         }
+    }
+}
+
+extension UIView {
+    func setGradient(colorTop: UIColor, colorBottom: UIColor) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [colorBottom.cgColor, colorTop.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.locations = [0, 1]
+        gradientLayer.frame = frame
+
+       layer.insertSublayer(gradientLayer, at: 0)
     }
 }

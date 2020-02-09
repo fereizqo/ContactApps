@@ -109,7 +109,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.95686274510000002" green="0.76078431369999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="335" id="4Vu-y1-8Jq"/>
                                     <constraint firstItem="LKV-dD-yFe" firstAttribute="leading" secondItem="Bpx-J2-xhP" secondAttribute="leading" constant="44" id="7o2-MI-pVa"/>
@@ -147,6 +147,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="LxE-0J-YZX">
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="t66-QJ-jEA">
+                            <color key="tintColor" red="0.31372549019607843" green="0.8901960784313725" blue="0.76078431372549016" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="editBarButtonTapped:" destination="aDQ-GW-CXu" id="mQm-SA-60K"/>
                             </connections>
@@ -158,6 +159,7 @@
                         <outlet property="favoriteButton" destination="UQc-da-ieZ" id="t92-9G-EvF"/>
                         <outlet property="nameContactLabel" destination="5y6-h4-pOP" id="sjT-3S-Sse"/>
                         <outlet property="photoContactImage" destination="fqr-HM-H1X" id="y90-4r-JdK"/>
+                        <outlet property="topView" destination="Bpx-J2-xhP" id="ftS-Sv-wQD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UKW-jV-nVI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

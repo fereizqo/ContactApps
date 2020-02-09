@@ -18,6 +18,7 @@ class DetailContactViewController: UIViewController {
     @IBOutlet weak var nameContactLabel: UILabel!
     @IBOutlet weak var detailContactTableView: UITableView!
     @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var topView: UIView!
     
     var url: String?
     var detailContact: DetailContact?
@@ -29,9 +30,6 @@ class DetailContactViewController: UIViewController {
         // Load detail contact data, Put request
         getDetailContactData()
         
-        // Set appearance
-        nameContactLabel.sizeToFit()
-        
         // Register xib cell
         let cellNib = UINib(nibName: "EditContactTableViewCell", bundle: nil)
         detailContactTableView.register(cellNib, forCellReuseIdentifier: "editContactCell")
@@ -39,6 +37,13 @@ class DetailContactViewController: UIViewController {
         self.detailContactTableView.tableFooterView = UIView()
         detailContactTableView.delegate = self
         detailContactTableView.dataSource = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Set appearance
+        nameContactLabel.sizeToFit()
+        topView.setGradient(colorTop: .white, colorBottom: Helper.primaryColor)
     }
     
     @IBAction func editBarButtonTapped(_ sender: UIBarButtonItem) {

@@ -16,6 +16,7 @@ class EditContactViewController: UIViewController {
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var photoContactImage: UIImageView!
     @IBOutlet weak var formContactTableView: UITableView!
+    @IBOutlet weak var topView: UIView!
     
     let label = ["First Name","Last Name", "mobile", "email"]
     var form = ["","","",""]
@@ -24,19 +25,22 @@ class EditContactViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Register xib cell
         let cellNib = UINib(nibName: "EditContactTableViewCell", bundle: nil)
         formContactTableView.register(cellNib, forCellReuseIdentifier: "editContactCell")
-        
-        // Set appearance
-        formContactTableView.tableFooterView = UIView()
         
         // Checking edit or not
         editContact()
         
         formContactTableView.delegate = self
         formContactTableView.dataSource = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Set appearance
+        formContactTableView.tableFooterView = UIView()
+        topView.setGradient(colorTop: .white, colorBottom: Helper.primaryColor)
     }
     
     func editContact() {
@@ -140,8 +144,8 @@ extension EditContactViewController {
                         break
                     case 200:
                         let alert = Helper.makeAlert(title: "Succes", messages: "Contact successfully updated")
-                        self.present(alert, animated: true, completion: nil)
                         self.dismiss(animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     default:
                         let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
                         self.present(alert, animated: true, completion: nil)
@@ -181,8 +185,8 @@ extension EditContactViewController {
                         break
                     case 201:
                         let alert = Helper.makeAlert(title: "Succes", messages: "Contact successfully created")
-                        self.present(alert, animated: true, completion: nil)
                         self.dismiss(animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     default:
                         let alert = Helper.makeAlert(title: "Alert", messages: "Error: \(response.response?.statusCode ?? 0). \n Problem when connecting server")
                         self.present(alert, animated: true, completion: nil)

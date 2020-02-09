@@ -22,7 +22,7 @@
                                         <rect key="frame" x="100" y="58" width="175" height="126"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="Urj-VL-SgS" firstAttribute="top" secondItem="bRO-wJ-sLJ" secondAttribute="top" constant="58" id="SOb-rl-Bkr"/>
                                     <constraint firstAttribute="trailing" secondItem="Urj-VL-SgS" secondAttribute="trailing" constant="100" id="XHq-F1-kvE"/>
@@ -49,11 +49,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="m70-ww-hkD">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="J6l-7D-Soh">
+                            <color key="tintColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancelBarButtonTapped:" destination="vFR-pb-yua" id="PUm-df-ztI"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="PXt-g4-Wre">
+                            <color key="tintColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="doneBarButtonTapped:" destination="vFR-pb-yua" id="a1b-X8-wRQ"/>
                             </connections>
@@ -64,6 +66,7 @@
                         <outlet property="doneBarButton" destination="PXt-g4-Wre" id="mBf-U1-t9q"/>
                         <outlet property="formContactTableView" destination="kvq-Ya-3le" id="57X-dc-tP6"/>
                         <outlet property="photoContactImage" destination="Urj-VL-SgS" id="qrM-EP-Nzq"/>
+                        <outlet property="topView" destination="bRO-wJ-sLJ" id="D0Y-aE-QyZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2nq-xJ-1rd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
