@@ -32,8 +32,12 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        // Get contact
+        // Get contact with loading spinner
+        Spinner.shared.showSpinner(onView: view)
         getContactData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            Spinner.shared.removeSpinner()
+        }
     }
     
     @IBAction func addBarButtonTapped(_ sender: UIBarButtonItem) {
