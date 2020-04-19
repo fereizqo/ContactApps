@@ -1,7 +1,7 @@
 # ContactApps
 iOS app that using web services to save the contacts. It is demonsrate API usage and Unit testing.
 
-![Image of Screenshot](https://github.com/fereizqo/ContactApps/tree/master/ContactsAppImage/Screenshot.png)
+![Image of Screenshot](https://github.com/fereizqo/ContactApps/blob/master/ContactsAppImage/Screenshot.png)
 
 # Contact
 Fereizqo Ahmad Sulaiman
